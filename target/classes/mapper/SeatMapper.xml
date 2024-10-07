@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lynn.seatsystem.mapper.SeatMapper">
+
+    <select id="lockSeat" resultType="com.lynn.seatsystem.domain.entity.Seat">
+        select *
+        from seat
+        where seat_id = #{seatId} for update
+    </select>
+</mapper>
