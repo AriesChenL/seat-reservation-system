@@ -8,8 +8,6 @@ import com.lynn.seatsystem.service.BlacklistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * Author: Lynn
  * Date: 2024/10/10 下午2:58
