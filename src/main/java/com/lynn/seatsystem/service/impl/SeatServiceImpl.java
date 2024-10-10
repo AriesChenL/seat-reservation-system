@@ -75,6 +75,8 @@ public class SeatServiceImpl extends ServiceImpl<SeatMapper, Seat> implements Se
         return QueryChain.of(seatMapper)
                 .select()
                 .from(SEAT)
+                .leftJoin(FLOOR)
+                .on(SEAT.FLOOR_ID.eq(FLOOR.FLOOR_ID))
                 .where(SEAT.FLOOR_ID.eq(floorId))
                 .and(SEAT.AVAILABLE.eq(true))
                 .listAs(SeatVO.class);
