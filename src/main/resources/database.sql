@@ -2,7 +2,7 @@ create table blacklist
 (
     blacklist_id bigint auto_increment comment '黑名单ID'
         primary key,
-    user_id      int                                  not null comment '用户ID',
+    user_id      bigint                                  not null comment '用户ID',
     reason       text                                 null comment '加入黑名单原因',
     start_date   date                                 not null comment '开始日期',
     end_date     date                                 null comment '结束日期',
@@ -16,7 +16,7 @@ create table feedback
 (
     feedback_id   bigint auto_increment comment '反馈ID'
         primary key,
-    user_id       int                                                                  not null comment '用户ID',
+    user_id       bigint                                                                  not null comment '用户ID',
     content       text                                                                 not null comment '反馈内容',
     feedback_type enum ('suggestion', 'complaint', 'other')  default 'other'           not null comment '反馈类型',
     status        enum ('pending', 'processing', 'resolved') default 'pending'         not null comment '处理状态',
@@ -42,8 +42,8 @@ create table reservation
 (
     reservation_id bigint auto_increment comment '预约ID'
         primary key,
-    user_id        int                                                                               not null comment '用户ID',
-    seat_id        int                                                                               not null comment '座位ID',
+    user_id        bigint                                                                               not null comment '用户ID',
+    seat_id        bigint                                                                               not null comment '座位ID',
     start_time     datetime                                                                          not null comment '开始时间',
     end_time       datetime                                                                          not null comment '结束时间',
     status         enum ('pending', 'confirmed', 'cancelled', 'completed') default 'pending'         not null comment '预约状态',
