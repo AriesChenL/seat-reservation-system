@@ -5,10 +5,10 @@ import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import java.io.Serial;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
