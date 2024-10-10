@@ -1,68 +1,94 @@
-CREATE TABLE user (
-                      user_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
-                      username VARCHAR(50) NOT NULL UNIQUE COMMENT '用户名',
-                      password VARCHAR(255) NOT NULL COMMENT '密码(加密存储)',
-                      email VARCHAR(100) UNIQUE COMMENT '电子邮箱',
-                      phone VARCHAR(20) UNIQUE COMMENT '手机号码',
-                      gender TINYINT(1) COMMENT '性别(0:未知 1:男 2:女)',
-                      status TINYINT(1) NOT NULL DEFAULT 1 COMMENT '状态(0:禁用 1:启用)',
-                      last_login_time DATETIME COMMENT '最后登录时间',
-                      last_login_ip VARCHAR(50) COMMENT '最后登录IP',
-                      deleted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除(0:未删除 1:已删除)',
-                      create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                      update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
-) COMMENT '用户表';
+create table blacklist
+(
+    blacklist_id bigint auto_increment comment '黑名单ID'
+        primary key,
+    user_id      int                                  not null comment '用户ID',
+    reason       text                                 null comment '加入黑名单原因',
+    start_date   date                                 not null comment '开始日期',
+    end_date     date                                 null comment '结束日期',
+    deleted      tinyint(1) default 0                 not null comment '是否删除',
+    create_time  datetime   default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time  datetime   default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
+)
+    comment '黑名单表';
 
-CREATE TABLE floor (
-                        floor_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '楼层ID',
-                        library_id INT NOT NULL COMMENT '所属图书馆ID',
-                        floor_number INT NOT NULL COMMENT '楼层号',
-                        deleted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
-                        create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                        update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
-) COMMENT '楼层表';
+create table feedback
+(
+    feedback_id   bigint auto_increment comment '反馈ID'
+        primary key,
+    user_id       int                                                                  not null comment '用户ID',
+    content       text                                                                 not null comment '反馈内容',
+    feedback_type enum ('suggestion', 'complaint', 'other')  default 'other'           not null comment '反馈类型',
+    status        enum ('pending', 'processing', 'resolved') default 'pending'         not null comment '处理状态',
+    deleted       tinyint(1)                                 default 0                 not null comment '是否删除',
+    create_time   datetime                                   default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time   datetime                                   default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
+)
+    comment '反馈表';
 
-CREATE TABLE seat (
-                       seat_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '座位ID',
-                       floor_id INT NOT NULL COMMENT '所属楼层ID',
-                       seat_number VARCHAR(20) NOT NULL COMMENT '座位号',
-                       seat_type ENUM('single', 'double', 'group') NOT NULL DEFAULT 'single' COMMENT '座位类型',
-                       is_available BOOLEAN NOT NULL DEFAULT TRUE COMMENT '是否可用',
-                       deleted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
-                       create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                       update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
-) COMMENT '座位表';
+create table floor
+(
+    floor_id     bigint auto_increment comment '楼层ID'
+        primary key,
+    library_id   int                                  not null comment '所属图书馆ID',
+    floor_number int                                  not null comment '楼层号',
+    deleted      tinyint(1) default 0                 not null comment '是否删除',
+    create_time  datetime   default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time  datetime   default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
+)
+    comment '楼层表';
 
-CREATE TABLE reservation (
-                              reservation_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '预约ID',
-                              user_id INT NOT NULL COMMENT '用户ID',
-                              seat_id INT NOT NULL COMMENT '座位ID',
-                              start_time DATETIME NOT NULL COMMENT '开始时间',
-                              end_time DATETIME NOT NULL COMMENT '结束时间',
-                              status ENUM('pending', 'confirmed', 'cancelled', 'completed') NOT NULL DEFAULT 'pending' COMMENT '预约状态',
-                              deleted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
-                              create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                              update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
-) COMMENT '预约表';
+create table reservation
+(
+    reservation_id bigint auto_increment comment '预约ID'
+        primary key,
+    user_id        int                                                                               not null comment '用户ID',
+    seat_id        int                                                                               not null comment '座位ID',
+    start_time     datetime                                                                          not null comment '开始时间',
+    end_time       datetime                                                                          not null comment '结束时间',
+    status         enum ('pending', 'confirmed', 'cancelled', 'completed') default 'pending'         not null comment '预约状态',
+    deleted        tinyint(1)                                              default 0                 not null comment '是否删除',
+    create_time    datetime                                                default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time    datetime                                                default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
+)
+    comment '预约表';
 
-CREATE TABLE blacklist (
-                           blacklist_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '黑名单ID',
-                           user_id INT NOT NULL COMMENT '用户ID',
-                           reason TEXT COMMENT '加入黑名单原因',
-                           start_date DATE NOT NULL COMMENT '开始日期',
-                           end_date DATE COMMENT '结束日期',
-                           deleted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
-                           create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                           update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
-) COMMENT '黑名单表';
+create table seat
+(
+    seat_id     bigint auto_increment comment '座位ID'
+        primary key,
+    floor_id    int                                                                  not null comment '所属楼层ID',
+    seat_number varchar(20)                                                          not null comment '座位号',
+    seat_type   enum ('single', 'double', 'group')         default 'single'          not null comment '座位类型',
+    seat_status enum ('available', 'reserved', 'occupied') default 'available'       null comment '座位状态',
+    available   tinyint(1)                                 default 1                 not null comment '是否可用',
+    deleted     tinyint(1)                                 default 0                 not null comment '是否删除',
+    create_time datetime                                   default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time datetime                                   default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
+)
+    comment '座位表';
 
-CREATE TABLE feedback (
-                          feedback_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '反馈ID',
-                          user_id INT NOT NULL COMMENT '用户ID',
-                          content TEXT NOT NULL COMMENT '反馈内容',
-                          feedback_type ENUM('suggestion', 'complaint', 'other') NOT NULL DEFAULT 'other' COMMENT '反馈类型',
-                          status ENUM('pending', 'processing', 'resolved') NOT NULL DEFAULT 'pending' COMMENT '处理状态',
-                          deleted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
-                          create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                          update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
-) COMMENT '反馈表';
+create table user
+(
+    user_id         bigint auto_increment comment '用户ID'
+        primary key,
+    username        varchar(50)                          not null comment '用户名',
+    password        varchar(255)                         not null comment '密码(加密存储)',
+    email           varchar(100)                         null comment '电子邮箱',
+    phone           varchar(20)                          null comment '手机号码',
+    gender          tinyint(1)                           null comment '性别(0:未知 1:男 2:女)',
+    status          tinyint(1) default 1                 not null comment '状态(0:禁用 1:启用)',
+    last_login_time datetime                             null comment '最后登录时间',
+    last_login_ip   varchar(50)                          null comment '最后登录IP',
+    deleted         tinyint(1) default 0                 not null comment '是否删除(0:未删除 1:已删除)',
+    create_time     datetime   default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time     datetime   default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    constraint email
+        unique (email),
+    constraint phone
+        unique (phone),
+    constraint username
+        unique (username)
+)
+    comment '用户表';
+
