@@ -5,8 +5,6 @@
 <mapper namespace="com.lynn.seatsystem.mapper.SeatMapper">
 
     <select id="lockSeat" resultType="com.lynn.seatsystem.domain.entity.Seat">
-        select *
-        from seat
-        where seat_id = #{seatId} for update
+        SELECT * FROM seat WHERE seat_id = #{seatId} FOR UPDATE
     </select>
 </mapper>
