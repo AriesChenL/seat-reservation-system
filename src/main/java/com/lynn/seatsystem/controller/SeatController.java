@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Author: Lynn
  * Date: 2024/10/06 下午9:04
@@ -30,5 +32,10 @@ public class SeatController {
     @GetMapping("/{id}")
     public ApiResponse<SeatVO> getSeat(@PathVariable Long id){
         return ApiResponse.success(seatService.getSeat(id));
+    }
+
+    @GetMapping("/available/{floorId}")
+    public ApiResponse<List<SeatVO>> getAvailableSeat(@PathVariable Long floorId){
+        return ApiResponse.success(seatService.getAvailableSeat(floorId));
     }
 }

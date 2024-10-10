@@ -70,6 +70,16 @@ public class SeatServiceImpl extends ServiceImpl<SeatMapper, Seat> implements Se
         return seatList.getFirst();
     }
 
+    @Override
+    public List<SeatVO> getAvailableSeat(Long floorId) {
+        return QueryChain.of(seatMapper)
+                .select()
+                .from(SEAT)
+                .where(SEAT.FLOOR_ID.eq(floorId))
+                .and(SEAT.AVAILABLE.eq(true))
+                .listAs(SeatVO.class);
+    }
+
     private void checkSeatType(String seatType) {
         if (!SeatConstant.SEAT_TYPE_LIST.contains(seatType)) {
             throw new BusinessException("座位类型不合法");

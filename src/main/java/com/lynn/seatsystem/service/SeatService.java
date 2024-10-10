@@ -4,6 +4,8 @@ import com.lynn.seatsystem.domain.vo.SeatVO;
 import com.mybatisflex.core.service.IService;
 import com.lynn.seatsystem.domain.entity.Seat;
 
+import java.util.List;
+
 /**
  * 座位表 服务层。
  *
@@ -24,4 +26,11 @@ public interface SeatService extends IService<Seat> {
      * @return SeatVO
      */
     SeatVO getSeat(Long id);
+
+    /**
+     * 获取预约的座位
+     * @param floorId 楼层ID
+     * @return SeatVO
+     */
+    List<SeatVO> getAvailableSeat(Long floorId);
 }

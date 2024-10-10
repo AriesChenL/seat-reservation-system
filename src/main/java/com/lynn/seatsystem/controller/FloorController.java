@@ -3,10 +3,13 @@ package com.lynn.seatsystem.controller;
 import com.lynn.seatsystem.domain.dto.FloorDTO;
 import com.lynn.seatsystem.domain.entity.Floor;
 import com.lynn.seatsystem.domain.vo.ApiResponse;
+import com.lynn.seatsystem.domain.vo.FloorVO;
 import com.lynn.seatsystem.service.FloorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Author: Lynn
@@ -38,5 +41,10 @@ public class FloorController {
         floor.setFloorId(id);
         floorService.updateById(floor);
         return ApiResponse.success("更新楼层成功");
+    }
+
+    @GetMapping("/available/{libraryId}")
+    public ApiResponse<List<FloorVO>> getAvailableFloor(@PathVariable Long libraryId) {
+        return ApiResponse.success(floorService.getAvailableFloor(libraryId));
     }
 }

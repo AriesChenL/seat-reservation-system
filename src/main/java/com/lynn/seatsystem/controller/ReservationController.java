@@ -5,10 +5,7 @@ import com.lynn.seatsystem.domain.vo.ApiResponse;
 import com.lynn.seatsystem.service.ReservationService;
 import com.lynn.seatsystem.util.UserContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Author: Lynn
